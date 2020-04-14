@@ -27,11 +27,11 @@ echo ======================================================\n
 echo Running all tests..."\n\n
 
 
-test "PIND: 0xFF, PINB: 0x01 => PORTB: 0x02"
-setPINA 0xFF
-setPINB 0x01
+test "PINA: 0x01, PINB: 0x02 => PORTB: 0x02"
+setPINA 0x01
+setPINB 0x02 	 
 continue 2
-expectPORTB 0x02
+expectPORTC 0x02
 checkResult
 
 # Report on how many tests passed/tests ran

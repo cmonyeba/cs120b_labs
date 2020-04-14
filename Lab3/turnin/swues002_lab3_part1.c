@@ -22,31 +22,24 @@ int main(void) {
     unsigned char tempA = 0x00;
     unsigned char tempB = 0x00;
     unsigned char cnt = 0x00;
-    unsigned char temp= 0x01;
-    unsigned char tempTwo = 0x01;
+    unsigned char check= 0x01;
 
     while (1) {
 	tempA = PINA;
 	tempB = PINB;
-
-	while(temp != 0x80){
-	   if((tempA & temp) == temp){
-	       cnt ++;
-               temp = temp << 1;
-	   }
-	   else{
-		temp = temp << 1;
-	    }
+	
+	while(tempA != 0x00){
+	if((tempA & check) == check){
+	    cnt++;
+	    tempA >>1;  //shift down one
 	}
-	while(tempTwo != 0x80){
-	    if((tempB & tempTwo) == tempTwo){
-	        cnt++;  
-	        tempTwo = tempTwo << 1;
-	    }
-	    else{
-		tempTwo = tempTwo <<1;
-	    }
+	}
+	while(tempB != 0x00){
+	if((tempB & check) == check){
+	    cnt++;
+	    tempB >>1; //shift
 	}	
+		
 	PORTC = cnt;
     }
     return 1;
