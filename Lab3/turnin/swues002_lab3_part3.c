@@ -24,11 +24,11 @@ int main(void) {
 
     while (1) {
 	level = PINA & 0x0F;
-	temp = PINA & 0xE0;  //keep inputs get rid of everything else
+	temp = PINA & 0x30;  //keep inputs get rid of everything else
 	if((level & 0x00) == 0){
 	    sensor = 0x40;
 	}
-	if((level == 0x02) || (level == 0x03)){
+	if((level == 0x01) || (level == 0x02)){
 	    sensor = 0x60;
 	}
 	if((level == 0x03) || (level == 0x04)){
@@ -46,7 +46,7 @@ int main(void) {
 	if((level >= 0x0D) && (level <= 0x0F)){
 	    sensor = 0x3F;
 	}
-	if(temp == 0x60){
+	if(temp == 0x30){
 	    sensor = sensor | 0x80;  //turn on light if seat not on
 	}
 	PORTC = sensor;

@@ -26,7 +26,7 @@ int main(void) {
 	if((level & 0x00) == 0){
 	    sensor = 0x40;
 	}
-	if((level == 0x02) || (level == 0x03)){
+	if((level == 0x01) || (level == 0x02)){
 	    sensor = 0x60;
 	}
 	if((level == 0x03) || (level == 0x04)){

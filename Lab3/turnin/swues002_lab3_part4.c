@@ -16,6 +16,7 @@ int main(void) {
     /* Insert DDR and PORT initializations */
     DDRA = 0x00; PORTA = 0xFF; //input
     DDRB = 0xFF; PORTB = 0x00; //output
+    DDRC = 0xFF; PORTC = 0x00; //other
     /* Insert your solution below */
 	
     unsigned char tempUpper = 0x00;
@@ -28,7 +29,8 @@ int main(void) {
 	tempUpper = tempUpper >> 4; //move to lower
 	tempLower = tempLower << 4; //move to upper
 
-	PORTB = tempUpper | tempLower; //combine
+	PORTB = tempUpper;
+	PORTC = tempLower;
     }
     return 1;
 }
