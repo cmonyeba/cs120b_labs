@@ -31,13 +31,19 @@ int main(void) {
 	while(tempA != 0x00){
 	if((tempA & check) == check){
 	    cnt++;
-	    tempA >>1;  //shift down one
+	   tempA = tempA >>1;  //shift down one
+	}
+	else{
+	    tempA = tempA >>1;
 	}
 	}
 	while(tempB != 0x00){
 	if((tempB & check) == check){
 	    cnt++;
-	    tempB >>1; //shift
+	  tempB = tempB >>1; //shift
+	}
+	else{
+	   tempB = tempB >>1;
 	}	
 	}	
 	PORTC = cnt;

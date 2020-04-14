@@ -19,18 +19,23 @@ int main(void) {
     /* Insert your solution below */
 	
     unsigned char weight = 0x00;
-
+    unsigned char tempD = 0x00;
+    unsigned char tempB = 0x00;
     while (1) {
-	weight = PIND + PINB; // 9 bit weight
+	tempD = PIND;
+	tempB = PINB;
+	tempD = tempD << 1;
+	weight = tempD | tempB; // 9 bit weight
 	if(weight >= 0x46){
 		PORTB = 0x02;		
 	}
 	if((weight > 0x05)&&(weight < 0x46)){
-		PORTB = 0x03;
+		PORTB = 0x04;
 	}
 	if(weight <= 0x05){
 		PORTB = 0x00;
 	}
     }
-    return 1;
+    return 1; //return
 }
+
