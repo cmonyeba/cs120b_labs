@@ -39,7 +39,7 @@ int main(void) {
 	    cnt++;
 	    tempB >>1; //shift
 	}	
-		
+	}	
 	PORTC = cnt;
     }
     return 1;
