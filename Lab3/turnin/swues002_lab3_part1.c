@@ -29,16 +29,22 @@ int main(void) {
 	tempA = PINA;
 	tempB = PINB;
 
-	while(!(temp == 0x80)){
+	while(temp != 0x80){
 	   if((tempA & temp) == temp){
 	       cnt ++;
                temp = temp << 1;
 	   }
-	
-	while(!(tempTwo == 0x80)){
+	   else{
+		temp = temp << 1;
+	    }
+	}
+	while(tempTwo != 0x80){
 	    if((tempB & tempTwo) == tempTwo){
 	        cnt++;  
 	        tempTwo = tempTwo << 1;
+	    }
+	    else{
+		tempTwo = tempTwo <<1;
 	    }
 	}	
 	PORTC = cnt;
