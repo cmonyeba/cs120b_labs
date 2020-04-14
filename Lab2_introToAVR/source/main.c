@@ -41,8 +41,8 @@ int main(void) {
 	if(maxWeight >= 0x8C){
 	    limit = 0x01; //another flag
 	}
-	temp = difference | limit;
-	PORTD = maxWeight | temp;
+	temp = maxWeight & 0xFC;
+	PORTD = temp | difference | limit;
     }	
 	return 1;
 }

@@ -8,6 +8,7 @@
  *	code, is my own original work.
  */
 #include <avr/io.h>
+#include <avr/math.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
@@ -20,12 +21,13 @@ int main(void) {
 	DDRD = 0xFF; PORTC = 0x00;
 
     /* Insert your solution below */
-    unsigned char seatOne = 0x00;
-    unsigned char seatTwo = 0x00;
-    unsigned char seatThree = 0x00;
-    unsigned char maxWeight = 0x00;
+    unsigned char weightOne = 0x00;
+    unsigned char weightTwo = 0x00;
+    unsigned char weightThree = 0x00;
+    unsigned char totalWeight = 0x00;
     unsigned char difference = 0x00;
-    unsigned char limit = 0x00;
+    unsigned char maxFlag = 0x00;
+    unsigned char balanceFlag = 0x00;
     unsigned char temp = 0x00;
  
     while (1) {
@@ -33,16 +35,18 @@ int main(void) {
 	seatTwo = PINB;
 	seatThree = PINC;
 
-	maxWeight = seatOne + seatTwo + seatThree;
-	
-	if((seatOne - seatThree) >= 0x50){
-	    difference = 0x02; //diff is set
+	totalWeight = weightOne + weightTwo + weightThree;
+	difference = abs(weightOne - weightThree);	
+
+	if(totalWeight >= 0x8C){
+	    maxFlag = 0x01; //set PD0 = 1
 	}
-	if(maxWeight >= 0x8C){
-	    limit = 0x01; //another flag
+	if(difference >= 0x50){
+	    balanceFlag = 0x02; //another flag
 	}
-	temp = difference | limit;
-	PORTD = maxWeight | temp;
+	temp = totalWeight & 0xFC;
+	temp = temp | maxFlag | balanceFlag;
+	PORTD = temp;
     }	
 	return 1;
 }
