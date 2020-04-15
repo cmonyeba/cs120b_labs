@@ -8,6 +8,7 @@
  *	code, is my own original work.
  */
 #include <avr/io.h>
+#include <stdlib.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
@@ -24,9 +25,7 @@ int main(void) {
     unsigned char weightTwo = 0x00;
     unsigned char weightThree = 0x00;
     unsigned char totalWeight = 0x00;
-    unsigned char difference = 0x00;
-    unsigned char maxFlag = 0x00;
-    unsigned char balanceFlag = 0x00;
+    unsigned char shift = 0x00;
     unsigned char temp = 0x00;
  
     while (1) {
@@ -35,16 +34,18 @@ int main(void) {
 	weightThree = PINC;
 
 	totalWeight = weightOne + weightTwo + weightThree;
-	difference = weightOne - weightThree;	
+	shift = (totalWeight/10 *4);
 
-	if(totalWeight >= 0x8C){
-	    maxFlag = 0x01; //set PD0 = 1
+	if(totalWeight >= 140){
+	    temp =  ((temp&0xFE) | 0x01); //set PD0 = 1
 	}
-	if(difference >= 0x50){
-	    balanceFlag = 0x02; //another flag
+	else{
+	    temp = ((temp&0xFE) | 0x00);
 	}
-	temp = totalWeight & 0xFC;
-	temp = temp | maxFlag | balanceFlag;
+	if(((weightOne-weightThree) | (weightThree-weightOne)) >= 80){
+	    temp = (temp&0xFD) | 0x02;
+	}
+	temp = temp + shift; 
 	PORTD = temp;
     }	
 	return 1;
