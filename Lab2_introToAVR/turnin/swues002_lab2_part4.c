@@ -8,7 +8,6 @@
  *	code, is my own original work.
  */
 #include <avr/io.h>
-#include <avr/math.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
@@ -36,7 +35,7 @@ int main(void) {
 	seatThree = PINC;
 
 	totalWeight = weightOne + weightTwo + weightThree;
-	difference = abs(weightOne - weightThree);	
+	difference = weightOne - weightThree;	
 
 	if(totalWeight >= 0x8C){
 	    maxFlag = 0x01; //set PD0 = 1

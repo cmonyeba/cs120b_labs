@@ -34,10 +34,7 @@ int main(void) {
 	    PORTC = 0x80; //PC7 is set
 	}
 	else{
-	cntAvail = parkOne | parkTwo | parkThree | parkFour;
-	cntAvail = ~cntAvail; //flips taken to zero and availible to one
-	cntAvail = cntAvail & 0x0F; //get rid of ones in upper bits
-	PORTC = cntAvail;
+	PORTC = 0x04 - cntAvail;
 	}
 	 
     }	
