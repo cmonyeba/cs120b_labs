@@ -30,9 +30,9 @@ int main(void) {
     unsigned char temp = 0x00;
  
     while (1) {
-	seatOne = PINA;
-	seatTwo = PINB;
-	seatThree = PINC;
+	weightOne = PINA;
+	weightTwo = PINB;
+	weightThree = PINC;
 
 	totalWeight = weightOne + weightTwo + weightThree;
 	difference = weightOne - weightThree;	
