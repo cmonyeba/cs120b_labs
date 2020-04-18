@@ -12,44 +12,39 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States {Start, Zero, One} state;
+enum States {Start, Rest, Switch} state;
 unsigned char tempA = 0x00;
 unsigned char tempB = 0x00;
+unsigned char light = 0x01;
 
 void tick(){
 	tempA = PINA;
 	switch(state) { //transitions
 	    case Start:
-	        state = Zero;
+	        state = Rest;
+		PORTB = light;
 		break;
-	    case Zero:
-		if(tempA){
-		    state = One;
+	    case Rest:
+		if(tempA == 0x01){
+		    state = Switch;
 		}
 		else{
-		    state = Zero;
+		    state = Rest;
 		}
 		break;
-	    case One:
-		if(tempA){
-		    state = Zero;	
-		}
-		else{
-		    state = One;
-		}
+	    case Switch:
+		state = Rest;
 		break;
 	    default:
 		state = Start;
 		break;
 	} //transitions
 	switch(state) { //state actions
-	    case Zero:
-		tempB = 0x01;
-		PORTB = tempB;
+	    case Rest:
+		PORTB = light;
 		break;
-	    case One:
-		tempB = 0x02;
-		PORTB = tempB;
+	    case Switch:
+		light = ~light & 0x03;
 		break;
 	    default: break;
 	} //state actions
