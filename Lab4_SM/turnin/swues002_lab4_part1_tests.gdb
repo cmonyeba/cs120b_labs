@@ -33,7 +33,7 @@ continue 2
 setPINA 0x00
 continue 2
 expectPORTB 0x02
-expect state One
+expect state 1
 checkResult
 
 # Add tests below

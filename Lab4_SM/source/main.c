@@ -35,10 +35,10 @@ void tick(){
 	    case Start:
 		break;
 	    case Zero:
-		PORTB = 0x01;
+		PORTB = 0x02;
 		break;
 	    case One:
-		PORTB = 0x02;
+		PORTB = 0x01;
 		break;
 	    default: break;
 	} //state actions
