@@ -38,15 +38,15 @@ expectPORTB 0x01
 expect state 5
 checkResult
 
-test "PINA: 0x03, 0x00, 0x02 => PORTB: 0x00, state: 1"
+test "PINA: 0x04, 0x00, 0x01 => PORTB: 0x00, state: 2"
 set state = Start
-setPINA 0x03
+setPINA 0x04
 continue 5
 setPINA 0x00
 continue 2
-setPINA 0x02
+setPINA 0x01
 expectPORTB 0x00
-expect state 2
+expect state 4
 checkResult
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed

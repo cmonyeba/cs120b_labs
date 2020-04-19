@@ -33,6 +33,9 @@ void tick(){
 		    }
 		    state = WaitFall;
 		}
+		else if(input == 0x80){
+		    state = Locked;
+		}
 		else{
 		   state = WaitFirst;
 		}
@@ -46,21 +49,30 @@ void tick(){
 		}
 		break;
 	    case WaitSecond:
-		if(input == 0x01 || input == 0x02 || input == 0x04){
-		    if(input == 0x02 && temp == 1){
-			    state = Unlocked;
+		if(input == 0x02){
+	 	    if(temp == 1){
+		        state = Unlocked;
 		    }
 		    else{
-		        state = Locked;
+		        state = Locked;	
 		    }
 		}
-		else{
+		else if(input == 0x80){
+		    state = Locked;
+		} 
+		else if(input == 0x00){
 		    state = WaitSecond;
+		}
+		else{
+		    state = Locked;
 		}
 		break;
 	    case Unlocked:
-		if(input == 0x40){
+		if(input == 0x80){
 	            state = Locked;
+		}
+		else{
+		    state = Unlocked;
 		}
 		break;
 	    default:
