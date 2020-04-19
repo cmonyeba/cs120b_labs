@@ -12,76 +12,67 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States {Start, Init, Rest, Fall, Inc, Dec, Clear} state;
-unsigned char buttonOne = 0x00;
-unsigned char buttonTwo = 0x00;
-unsigned char count = 0x00;
+enum States {Start, Locked, WaitFirst, WaitFall, WaitSecond, Unlocked} state;
+unsigned char input = 0x00;
+unsigned char temp = 0x00;
 
 void tick(){
-	buttonOne = PINA&0x01;
-	buttonTwo = PINA&0x02;
+	input = PINA;
 	
 	switch(state) { //transitions
 	    case Start:
-	        state = Init;
+	        state = Locked;
 		break;
-	    case Init:
-		state = Rest;
+	    case Locked:
+		state = WaitFirst;
 		break;
-	    case Rest:
-		if(buttonOne && !buttonTwo){
-		    state = Inc;
-		}
-	 	else if(buttonTwo && !buttonOne){
-		    state = Dec;
-		}
-		else if(buttonOne && buttonTwo){
-		    state = Clear;
+	    case WaitFirst:
+		if(input == 0x01 || input == 0x02 || input == 0x04){
+		    if(input == 0x04){
+			temp = 1;
+		    }
+		    state = WaitFall;
 		}
 		else{
-		   state = Rest;
+		   state = WaitFirst;
 		}
 		break;
-	    case Fall:
-		if(buttonOne || buttonTwo){
-		    state = Fall;
-		}
-		else if(buttonOne && buttonTwo){
-		    state = Clear;
+	    case WaitFall:
+		if(input == 0x00){
+		    state = WaitSecond;
 		}
 		else{
-		    state = Rest;
+		    state = WaitFall;
 		}
 		break;
-	    case Inc:state = Fall;break;
-	    case Dec:state = Fall;break;
-	    case Clear:state = Fall;break;
+	    case WaitSecond:
+		if(input == 0x01 || input == 0x02 || input == 0x04){
+		    if(input == 0x02 && temp == 1){
+			    state = Unlocked;
+		    }
+		    else{
+		        state = Locked;
+		    }
+		}
+		else{
+		    state = WaitSecond;
+		}
+		break;
+	    case Unlocked:
+		if(input == 0x40){
+	            state = Locked;
+		}
+		break;
 	    default:
 		state = Start;
 		break;
 	} //transitions
 	switch(state) { //state actions
-	    case Init:
-		count = 7;
+	    case Locked:
+		PORTB = 0x00;
 		break;
-	    case Rest:
-		PORTC = count;
-		break;
-	    case Fall:
-		PORTC = count;
-		break;
-	    case Inc:
-		if(count < 9){
-		    count++;
-		}
-		break;
-	    case Dec:
-		if(count > 0){
-		    count--;
-		}
-		break;
-	    case Clear:
-		count = 0;
+	    case Unlocked:
+		PORTB = 0x01;
 		break;
 	    default: break;
 	} //state actions
@@ -90,7 +81,7 @@ void tick(){
 int main(void) {
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF;
- 	DDRC = 0xFF; PORTB = 0x00;
+ 	DDRB = 0xFF; PORTB = 0x00;
 	state = Start;
     /* Insert your solution below */
     while (1) {

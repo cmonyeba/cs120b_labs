@@ -26,36 +26,26 @@
 echo ======================================================\n
 echo Running all tests..."\n\n
 
-test "PINA: 0x01 => PORTC: 0x08, state: Rest"
+test "PINA: 0x04, 0x00, 0x02 => PORTB: 0x01, state: 5"
 set state = Start
-setPINA 0x01
+setPINA 0x04
 continue 5
-expectPORTC 0x08
-expect state 3
-checkResult
-
-# Add tests below
-test "PINA: 0x02 => PORTC: 0x06, state: Rest"
-set state = Start
+setPINA 0x00
+continue 2
 setPINA 0x02
-continue 5
-expectPORTC 0x06
-expect state 3
+continue 2
+expectPORTB 0x01
+expect state 5
 checkResult
 
-test "PINA: 0x01, 0x02 => PORTC: 0x00, state: Rest"
+test "PINA: 0x03, 0x00, 0x02 => PORTB: 0x00, state: 1"
 set state = Start
 setPINA 0x03
 continue 5
-expectPORTC 0x00
-expect state 3
-checkResult
-
-test "PINA: 0x00 => PORTC: 0x07, state: Rest"
-set state = Start
 setPINA 0x00
-continue 5
-expectPORTC 0x07
+continue 2
+setPINA 0x02
+expectPORTB 0x00
 expect state 2
 checkResult
 # Report on how many tests passed/tests ran
