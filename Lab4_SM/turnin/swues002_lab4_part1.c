@@ -24,19 +24,19 @@ void tick(){
 	        state = Init;
 		break;
 	    case Init:
-		if(input == 0x00){
-		    state = Init;
+		if(input == 0x01){
+		    state = Next;
 		}
-		else{
+		else if(input == 0x00){
 		    state = Next;
 		}
 		break;
 	    case Next:
-		if(input == 0x00){
-	            state = Next;
+		if(input == 0x01){
+	            state = Init;
 		}
-		else{
-		    state = Init;
+		else if(input == 0x00){
+		    state = Next;
 		}
 		break;
 	    default:
