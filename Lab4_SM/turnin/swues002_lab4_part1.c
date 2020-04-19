@@ -48,8 +48,8 @@ void tick(){
 		tempB = 0x01;
 		PORTB = tempB;
 		break;
-	    case PB1:
-		tempB = 0x02
+	    case Next:
+		tempB = 0x02;
 		PORTB = tempB;
 		break;
 	    default: break;
