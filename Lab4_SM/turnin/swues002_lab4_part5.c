@@ -37,7 +37,7 @@ void tick(){
 	    	if(input == 0x01 || input == 0x02 || input == 0x04){
 		    if(temp < 4){
 			code[temp]= input;
-			temp++:
+			temp++;
 		    }
 		    if(temp == 4){
 			if(!check){//locked

@@ -26,11 +26,9 @@ void tick(){
 	        state = Locked;
 		break;
 	    case Locked:
-		temp = 0;
 		state = Code;
 		break;
 	    case Unlocked:
-		temp = 0;
                	state = Code;
 		break;
 	    case Code:
@@ -79,10 +77,12 @@ void tick(){
 	} //transitions
 	switch(state) { //state actions
 	    case Locked:
+		temp = 0;
 		check = 0x00;
 		PORTB = check;
 		break;
 	    case Unlocked:
+		temp = 0;
 		check = 0x01;
 		PORTB = check;
 		break;
