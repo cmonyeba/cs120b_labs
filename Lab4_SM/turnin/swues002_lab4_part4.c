@@ -14,7 +14,7 @@
 
 enum States {Start, Locked, Code, Wait, Fall, Unlocked} state;
 unsigned char input = 0x00;
-unsigned int code[4];
+unsigned int code[2];
 unsigned char check = 0x00;
 unsigned char temp = 0x00;
 
@@ -35,6 +35,10 @@ void tick(){
 		break;
 	    case Code:
 	    	if(input == 0x01 || input == 0x02 || input == 0x04){
+		    if(temp < 2){
+			code[temp] = input;
+			temp++;
+		    }
 		    if(temp == 2){
 			if(!check){//locked
 			    if(code[0] == 4 && code[1] == 2){
@@ -53,9 +57,9 @@ void tick(){
 			    }
 			}  
 		    }
-		    code[temp] = input;
-		    temp++;
-		    state = Fall;
+		    else{
+			state = Fall;
+		    }
 		}
 		else{
 		    state = Code;

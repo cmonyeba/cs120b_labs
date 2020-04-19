@@ -35,6 +35,10 @@ void tick(){
 		break;
 	    case Code:
 	    	if(input == 0x01 || input == 0x02 || input == 0x04){
+		    if(temp < 4){
+			code[temp]= input;
+			temp++:
+		    }
 		    if(temp == 4){
 			if(!check){//locked
 			    if(code[0] == 4 && code[1] == 1 && code[2] == 2 && code[3] == 1){
@@ -53,9 +57,9 @@ void tick(){
 			    }
 			}  
 		    }
-		    code[temp] = input;
-		    temp++;
-		    state = Fall;
+		    else{
+		        state = Fall;
+		    }
 		}
 		else{
 		    state = Code;
