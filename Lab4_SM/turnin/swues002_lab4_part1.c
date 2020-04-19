@@ -33,7 +33,12 @@ void tick(){
 		}
 		break;
 	    case Switch:
-		state = Rest;
+		if(tempA != 0x01){
+	            state = Rest;
+		}
+		else{
+		    state = Switch;
+		}
 		break;
 	    default:
 		state = Start;
