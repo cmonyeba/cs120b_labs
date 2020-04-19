@@ -12,7 +12,7 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States {Start, Init, Wait, PB1} state;
+enum States {Start, Init, Next} state;
 unsigned char input = 0x00;
 unsigned char tempB = 0x00;
 
@@ -25,29 +25,18 @@ void tick(){
 		break;
 	    case Init:
 		if(input == 0x00){
-		    state = Wait;
-		}
-		else{
 		    state = Init;
 		}
+		else{
+		    state = Next;
+		}
 		break;
-	    case PB1:
+	    case Next:
 		if(input == 0x00){
-	            state = Wait;
+	            state = Next;
 		}
 		else{
-		    state = PB1;
-		}
-		break;
-	    case Wait:
-		if(input == 0x01 && tempB == 0x01){
-		    state = PB1;
-		}
-		else if(input == 0x01 && tempB == 0x02){
 		    state = Init;
-		}
-		else{
-		    state = Wait;
 		}
 		break;
 	    default:
