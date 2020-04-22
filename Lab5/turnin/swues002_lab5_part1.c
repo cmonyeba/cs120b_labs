@@ -23,7 +23,7 @@ int main(void) {
     
     while (1) {
         temp = PINA;
-	button = ~temp; //buttons
+	button = ~temp&0x0F; //buttons
         if(button==0x00){
 		led = 0x40;
 	}
