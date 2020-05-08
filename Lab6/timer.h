@@ -1,3 +1,7 @@
+#include <avr/interrupt.h>
+#ifndef __timer_h__
+#define __timer_h__
+
 volatile unsigned char TimerFlag = 0;
 
 unsigned long _avr_timer_M = 1;
@@ -34,4 +38,6 @@ void TimerSet(unsigned long M) {
 	_avr_timer_M = M;
 	_avr_timer_cntcurr = _avr_timer_M;
 }
+
+#endif
 
