@@ -7,15 +7,13 @@
  *	I acknowledge all content contained herein, excluding template or example
  *	code, is my own original work.
  */
-//Lab Demo: https://youtu.be/Cmn_vTa7Xlo
-
 #include <avr/io.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
 #include "timer.h"
 
-enum States {Start, One, Two, Three, Fall, Win} state;
+enum States {Start, One, Two, Three, Fall} state;
 unsigned char i = 0;
 unsigned char button = 0;
 void tick(){
@@ -43,19 +41,12 @@ void tick(){
 			  }else{
 				 state=One;
 			  } break;
-		case Fall: if(button){
+		case Fall: if(button==0x00){
 				   state=Fall;
 			   }else{
-				   state=Win;
+				   state=One;
 			   }
 			   break;
-		case Win: if(button){
-				  state=One;
-			  }else{
-				  state=Win;
-			  }
-			  break;
-
 		default: state=Start; break;
 	}//transition
 	switch(state){//state action
@@ -63,8 +54,7 @@ void tick(){
 		case One: i=0x01;PORTB=i; break;
 		case Two: i=0x02;PORTB=i; break;
 		case Three: i=0x04;PORTB=i; break;
-	        case Fall: break;
-		case Win: break;	   
+	        case Fall: PORTB = i; break;	   
 	}//stateaction
 }
 
