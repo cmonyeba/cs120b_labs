@@ -25,7 +25,7 @@ void tick(){
 		case Start: state=One; break;
 		case One:
 			   if(button){
-				   state=One;
+				   state=Fall;
 			   }else{
 				  state=Two;
 			   } break;
@@ -39,7 +39,7 @@ void tick(){
 			  break;
 		case Three: 
 			  if(button){
-				  state=Three;
+				  state=Fall;
 			  }else{
 				 state=One;
 			  } break;
