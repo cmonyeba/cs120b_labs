@@ -13,49 +13,79 @@
 #endif
 #include "timer.h"
 
-enum States {Start, One, Two, Three, Fall} state;
-unsigned char i = 0;
-unsigned char button = 0;
-void tick(){
-	button = ~PINA&0x01;//Button
-
-	switch(state){//transitions
-		case Start: state=One; break;
+enum States{Start, One, Two, Three, Wait, W, Fall} State;
+void Tick(){
+	switch(State){
+		case Start:
+			State = One;
+		break;
 		case One:
-			   if(button){
-				   state=Fall;
-			   }else{
-				  state=Two;
-			   } break;
+		 	State = Two;
+		break;
+
 		case Two:
-			  if(button){
-				  state=Fall;
-			  }
-			  else{
-				  state=Three;
-			  }
-			  break;
-		case Three: 
-			  if(button){
-				  state=Fall;
-			  }else{
-				 state=One;
-			  } break;
-		case Fall: if(button==0x00){
-				   state=Fall;
-			   }else{
-				   state=One;
-			   }
-			   break;
-		default: state=Start; break;
-	}//transition
-	switch(state){//state action
-		case Start: i=0x00;PORTB=i; break;
-		case One: i=0x01;PORTB=i; break;
-		case Two: i=0x02;PORTB=i; break;
-		case Three: i=0x04;PORTB=i; break;
-	        case Fall: PORTB = i; break;	   
-	}//stateaction
+			State = Three;
+		break;
+
+		case Three:
+			State = Wait;
+		break;
+
+		case Wait:
+                        if(PINA == 0x01){
+                                State = Wait;
+                        }
+                        else{
+                                State = W;
+                        }
+               break;
+
+		case W:
+			State = Fall;
+		break;
+
+		case Fall:
+                        if(PINA == 0x01){
+				State = Fall;
+                        }
+                        else{
+                                State = One;
+                        }
+                break;
+
+		
+	}
+
+	switch(State){
+		case One:
+			if(PINA = 0x01){
+				PORTB = PORTB;
+			}
+			PORTB = 0x01;
+		break;
+		case Two:
+			if(PINA = 0x01){
+                                PORTB = PORTB;
+                        }
+
+			PORTB = 0x02;
+		break;
+		case Three:
+			if(PINA = 0x01){
+                                PORTB = PORTB;
+                        }
+
+			PORTB = 0x04;
+		break;
+		case W:
+			if(PINA = 0x01){
+                                PORTB = PORTB;
+                        }
+
+                        PORTB = 0x02;
+                break;
+
+	}
 }
 
 int main(void) {
@@ -63,8 +93,9 @@ int main(void) {
     DDRA = 0x00; PORTA = 0xFF;
     TimerSet(300);
     TimerOn();
+    State = Start;
     while (1) {
-	tick();
+	Tick();
 	while(!TimerFlag);
 	TimerFlag=0;
     }
